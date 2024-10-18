@@ -6,18 +6,14 @@ on:
       - 'v*'
 
 jobs:
-  using_image_resize_and_release:
-    name: Calling GitHub Actions
-    runs-on: ubuntu-latest
+  call-workflow:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
       # added or changed files to the repository.
       contents: write
-    steps:
-     - name: call-workflow
-       uses: mcsully323/DigitalTrailsTest/.github/workflows/release_creation.yml@main
-       with:
-         image_folder: ./assets/images/
-         new_image_folder: ./assets/new_images/
-         artifact_folders: mt-spanish.json JSON assets/new_images assets/videos
+    uses: mcsully323/DigitalTrailsTest/.github/workflows/release_creation.yml@main
+    with:
+      image_folder: ./assets/images/
+      new_image_folder: ./assets/new_images/
+      artifact_folders: mt-spanish.json JSON assets/new_images assets/videos
 
