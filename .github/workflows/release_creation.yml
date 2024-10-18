@@ -1,0 +1,60 @@
+name: Release Creation
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+jobs:
+  image_resize_job:
+    name: Image Resize Job
+    runs-on: ubuntu-latest
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+    steps:
+     - name: checkout
+       uses: actions/checkout@v4
+     - name: Install LibVips
+       run: sudo apt install libvips-tools
+     - name: resize jpeg images
+       run:  vipsthumbnail ./assets/images/*.jpeg --size 1300x2600 -o $(readlink -f "./assets/new_images/%s.jpeg")
+     - name: Commit
+       uses: stefanzweifel/git-auto-commit-action@v5
+
+  release:
+    name: Create zip file
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository content
+        uses: actions/checkout@v4
+
+      # Step 2: Create ZIP file of specific folders
+      - name: Create ZIP file of specific folders
+        run: |
+          mkdir artifact
+          zip -r artifact/my-release.zip mt-spanish.json JSON assets
+
+      # Step 3: Create a GitHub release
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub automatically provides this token
+        with:
+          tag_name: ${{ github.ref }}  # This uses the tag that triggered the workflow
+          release_name: "Release ${{ github.ref }}"
+          draft: false
+          prerelease: false
+
+      # Step 4: Upload the ZIP file to the release
+      - name: Upload ZIP to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}  # URL to upload to the release
+          asset_path: artifact/my-release.zip  # Path to the ZIP file
+          asset_name: my-release.zip  # Name of the file on GitHub release
+          asset_content_type: application/zip
+
