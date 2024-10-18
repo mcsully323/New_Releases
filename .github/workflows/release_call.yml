@@ -15,5 +15,9 @@ jobs:
       contents: write
     steps:
      - name: call-workflow
-       uses: actions/checkout@v4
+       uses: mcsully323/DigitalTrailsTest/.github/workflows/release_creation.yml@main
+       with:
+         image_folder: ./assets/images/
+         new_image_folder: ./assets/new_images/
+         artifact_folders: mt-spanish.json JSON assets/new_images assets/videos
 
