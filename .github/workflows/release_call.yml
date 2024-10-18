@@ -6,11 +6,14 @@ on:
       - 'v*'
 
 jobs:
-  new-release:
+  using_image_resize_and_release:
+    name: Calling GitHub Actions
     runs-on: ubuntu-latest
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
       # added or changed files to the repository.
       contents: write
-  call-workflow:
-    uses: mcsully323/DigitalTrailsTest/.github/workflows/release_creation.yml@main  
+    steps:
+     - name: call-workflow
+       uses: actions/checkout@v4
+
