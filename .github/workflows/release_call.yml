@@ -1,0 +1,10 @@
+name: Call Reusable Workflow
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  call-workflow:
+    uses: mcsully323/DigitalTrailsTest/.github/workflows/release_creation.yml@main  
