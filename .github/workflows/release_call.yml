@@ -7,4 +7,13 @@ on:
 
 jobs:
   call-workflow:
-    uses: mcsully323/DigitalTrailsTest/.github/workflows/release_creation.yml@main  
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+    uses: mcsully323/DigitalTrailsTest/.github/workflows/release_creation.yml@main
+    with:
+      image_folder: ./assets/images/
+      new_image_folder: ./assets/new_images/
+      artifact_folders: mt-spanish.json, JSON, assets/new_images, assets/videos
+
