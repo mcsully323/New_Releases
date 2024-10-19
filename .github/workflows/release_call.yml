@@ -15,5 +15,8 @@ jobs:
     with:
       image_folder: ./assets/images/
       new_image_folder: ./assets/new_images/
-      artifact_folders: mt-spanish.json, JSON, assets/new_images, assets/videos
+      complete_json: ./mt-spanish.json
+      json_folder: ./files
+      images_folder: ./assets/new_images
+      videos_folder: ./assets/videos
 
