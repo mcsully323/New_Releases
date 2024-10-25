@@ -1,22 +1,28 @@
-name: Call Reusable Workflow
-
+name: Release Creation
+            
 on:
   push:
     tags:
       - 'v*'
 
 jobs:
-  call-workflow:
+  Release_Creation:
+    runs-on: ubuntu-latest
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
       # added or changed files to the repository.
       contents: write
-    uses: mcsully323/DigitalTrailsTest/.github/workflows/release_creation.yml@main
-    with:
-      image_folder: ./assets/images/
-      new_image_folder: ./assets/new_images/
-      complete_json: ./mt-spanish.json
-      json_folder: ./files
-      images_folder: ./assets/new_images
-      videos_folder: ./assets/videos
+    
+    steps:
+      - name: call workflow
+        uses: digital-trails/protocol-publisher@v1.0.0
+        with:
+          image_folder: ./assets/images/
+          new_image_folder: ./assets/new_images/
+          complete_json: ./mt-spanish.json
+          json_folder: ./files
+          images_folder: ./assets/new_images
+          videos_folder: ./assets/videos
+
+
 
